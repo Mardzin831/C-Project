@@ -16,22 +16,22 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Button Name ="StartButton" Content="Start" HorizontalAlignment="Center" Margin="474.2,131,46.6,0" VerticalAlignment="Top" Width="176" Height="57" Click="StartButton_Click" Background="#FF6EED2A" FontSize="20" FontWeight="Bold" Grid.Column="1"/>
-        <Button Name ="StopButton" Content="Stop" HorizontalAlignment="Center" Margin="474.2,9.6,46.6,0" VerticalAlignment="Top" Width="176" Height="57" Click="StopButton_Click" Background="#FFEA4B38" FontSize="20" FontWeight="Bold" Grid.Column="1" Grid.Row="1"/>
+        <Button Name ="StartButton" Content="Start" HorizontalAlignment="Center" Margin="454.2,124,66.6,0" VerticalAlignment="Top" Width="176" Height="57" Click="StartButton_Click" Background="#FF6EED2A" FontSize="20" FontWeight="Bold" Grid.Column="1"/>
+        <Button Name ="StopButton" Content="Stop" HorizontalAlignment="Center" Margin="454.2,2.6,66.6,0" VerticalAlignment="Top" Width="176" Height="57" Click="StopButton_Click" Background="#FFEA4B38" FontSize="20" FontWeight="Bold" Grid.Column="1" Grid.Row="1"/>
         <DataGrid Name ="dataGrid" HorizontalAlignment="Left" Height="440" Margin="260,62.6,0,0" Grid.Row="1" VerticalAlignment="Top" Width="873" Grid.ColumnSpan="2" Background="White"/>
-        <Button x:Name ="AddButton" Content="Add" Grid.Column ="0" HorizontalAlignment="Center" Margin="36,173,484.8,0" VerticalAlignment="Top" Width="176" Height="55" Click="AddButton_Click" Background="#FF1DC33D" FontSize="20" FontWeight="Bold" Grid.RowSpan="2"/>
-        <Button x:Name ="RefreshButton" Content="Refresh" HorizontalAlignment="Center" Margin="36,139.6,484.8,0" VerticalAlignment="Top" Width="176" Height="47" Click="RefreshButton_Click" Background="#FF805DCD" FontSize="20" FontWeight="Bold" Grid.Row="1"/>
-        <Button x:Name ="DeleteButton" Content="Delete" HorizontalAlignment="Center" Margin="36,62.6,484.8,0" VerticalAlignment="Top" Width="176" Height="46" Click="DeleteButton_Click" Background="#FFF7631D" FontSize="20" FontWeight="Bold" Grid.Row="1"/>
-        <Label Name="label" Content="Usługa: " HorizontalAlignment="Left"  Margin="365.2,46,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="39" Width="285" FontWeight="Bold" FontSize="20" Foreground="Black" Grid.Column="1"/>
-        <Label Content="Name" HorizontalAlignment="Left" Margin="319,162,0,0" VerticalAlignment="Top"/>
-        <Label Content="Size" HorizontalAlignment="Left" Margin="480,162,0,0" VerticalAlignment="Top"/>
-        <Label Content="Type" HorizontalAlignment="Left" Margin="586,162,0,0" VerticalAlignment="Top"/>
-        <Label Content="Creation Date" HorizontalAlignment="Left" Margin="660,162,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="107" Height="26"/>
+        <Button x:Name ="AddButton" Content="Add" Grid.Column ="0" HorizontalAlignment="Center" Margin="49,181,484.8,0" VerticalAlignment="Top" Width="163" Height="47" Click="AddButton_Click" Background="#FF1DC33D" FontSize="20" FontWeight="Bold" Grid.RowSpan="2"/>
+        <Button x:Name ="RefreshButton" Content="Refresh" HorizontalAlignment="Center" Margin="49,139.6,484.8,0" VerticalAlignment="Top" Width="163" Height="47" Click="RefreshButton_Click" Background="#FF805DCD" FontSize="20" FontWeight="Bold" Grid.Row="1"/>
+        <Button x:Name ="DeleteButton" Content="Delete" HorizontalAlignment="Center" Margin="49,62.6,484.8,0" VerticalAlignment="Top" Width="163" Height="46" Click="DeleteButton_Click" Background="#FFF7631D" FontSize="20" FontWeight="Bold" Grid.Row="1"/>
+        <Label Name="label" Content="Usługa: " HorizontalAlignment="Left"  Margin="434.2,59,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="39" Width="220" FontWeight="Bold" FontSize="20" Foreground="Red" Grid.Column="1" Background="#FFCECECE" FontStyle="Italic"/>
+        <Label Content="Nazwa" HorizontalAlignment="Left" Margin="260,162,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="160"/>
+        <Label Content="Rozmiar" HorizontalAlignment="Left" Margin="442,162,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="109"/>
+        <Label Content="Typ" HorizontalAlignment="Left" Margin="570,162,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="58"/>
+        <Label Content="Data Utworzenia" HorizontalAlignment="Left" Margin="644,162,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="154" Height="26"/>
         <TextBox Name ="NameBox" HorizontalAlignment="Left" Height="23" Margin="260,194,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"  TextAlignment="Center" Grid.RowSpan="2"  />
         <TextBox x:Name ="SizeBox" HorizontalAlignment="Left" Height="23" Margin="442,194,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="109"  TextAlignment="Center" Grid.RowSpan="2" />
         <TextBox x:Name ="TypeBox" HorizontalAlignment="Left" Height="23" Margin="570,194,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="58"  TextAlignment="Center" Grid.RowSpan="2" />
-        <TextBox x:Name ="DateBox" HorizontalAlignment="Left" Height="23" Margin="644,194,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="109"  TextAlignment="Center" Grid.RowSpan="2" Grid.ColumnSpan="2" />
-        <TextBox x:Name ="InfoBox" HorizontalAlignment="Left" Height="23" Margin="602,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="190"  TextAlignment="Center" Grid.ColumnSpan="2" BorderBrush="Black" Background="#FFCECECE" FontSize="14" Foreground="#FFFF0009" FontStyle="Italic" TextDecorations="{x:Null}" IsReadOnly="True"  />
+        <TextBox x:Name ="DateBox" HorizontalAlignment="Left" Height="23" Margin="644,194,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="154"  TextAlignment="Center" Grid.RowSpan="2" Grid.ColumnSpan="2" />
+        <TextBox x:Name ="InfoBox" HorizontalAlignment="Left" Height="23" Margin="598,110,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200"  TextAlignment="Center" Grid.ColumnSpan="2" BorderBrush="Black" Background="#FFCECECE" FontSize="14" Foreground="#FFFF0009" TextDecorations="{x:Null}" IsReadOnly="True" FontStyle="Italic" FontWeight="Bold"  />
 
     </Grid>
 </Window>

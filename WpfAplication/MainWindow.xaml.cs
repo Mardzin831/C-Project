@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
@@ -78,7 +79,9 @@ namespace WpfAplication
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if(NameBox.Text != "" && int.TryParse(SizeBox.Text, out _) != false)
+            if(NameBox.Text != "" && int.TryParse(SizeBox.Text, out _) == true &&
+                (DateTime.TryParseExact(DateBox.Text, "M/d/yyyy h:mm:ss tt", 
+                new CultureInfo("en-US"), DateTimeStyles.None, out _) == true || DateBox.Text == ""))
             {
                 command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia) " +
                     "values(@name, @size, @type, @date)", conn);
@@ -93,7 +96,7 @@ namespace WpfAplication
                 {
                     command.Parameters.AddWithValue("@date", DateBox.Text);
                 }
-               
+                
                 command.ExecuteNonQuery();
                 ShowTab();
             }
