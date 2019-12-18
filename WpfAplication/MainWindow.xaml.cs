@@ -27,7 +27,7 @@ namespace WpfAplication
         private SqlConnection conn = new SqlConnection(connectionString);
         private SqlCommand command = new SqlCommand();
         SqlDataAdapter adapter = new SqlDataAdapter();
-        DataTable table = new DataTable("Table1");
+        DataTable tab = new DataTable("Tab");
         public MainWindow()
         {
             InitializeComponent();
@@ -78,15 +78,29 @@ namespace WpfAplication
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if(NameBox.Text != "")
+            if(NameBox.Text != "" && int.TryParse(SizeBox.Text, out _) != false)
             {
-                command = new SqlCommand("insert into Table1(xd) values(@xd)", conn);
-                command.Parameters.AddWithValue("@xd", NameBox.Text);
-
+                command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia) " +
+                    "values(@name, @size, @type, @date)", conn);
+                command.Parameters.AddWithValue("@name", NameBox.Text);
+                command.Parameters.AddWithValue("@size", SizeBox.Text);
+                command.Parameters.AddWithValue("@type", TypeBox.Text);
+                if(DateBox.Text == "")
+                {
+                    command.Parameters.AddWithValue("@date", DateTime.Now);
+                }
+                else
+                {
+                    command.Parameters.AddWithValue("@date", DateBox.Text);
+                }
+               
                 command.ExecuteNonQuery();
                 ShowTab();
             }
-            
+            else
+            {
+                InfoBox.Text = "Błędnie wprowadzone dane!";
+            }
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -97,7 +111,7 @@ namespace WpfAplication
                 string cell = selected.Row.ItemArray[0].ToString();
                 int id = int.Parse(cell);
 
-                command = new SqlCommand("delete from Table1 where Id=@id", conn);
+                command = new SqlCommand("delete from Tab where Id=@id", conn);
                 command.Parameters.AddWithValue("@id", id);
 
                 command.ExecuteNonQuery();
@@ -107,12 +121,13 @@ namespace WpfAplication
         }
         public void ShowTab()
         {
-            table.Clear();
-            command = new SqlCommand("select * from Table1", conn); ;
+            InfoBox.Text = "";
+            tab.Clear();
+            command = new SqlCommand("select * from Tab", conn); ;
             adapter = new SqlDataAdapter(command);
-            adapter.Fill(table);
+            adapter.Fill(tab);
 
-            dataGrid.ItemsSource = table.DefaultView;
+            dataGrid.ItemsSource = tab.DefaultView;
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
@@ -120,6 +135,6 @@ namespace WpfAplication
             ShowTab();
         }
 
-     
+      
     }
 }

@@ -23,8 +23,15 @@
         <Button x:Name ="RefreshButton" Content="Refresh" HorizontalAlignment="Center" Margin="36,139.6,484.8,0" VerticalAlignment="Top" Width="176" Height="47" Click="RefreshButton_Click" Background="#FF805DCD" FontSize="20" FontWeight="Bold" Grid.Row="1"/>
         <Button x:Name ="DeleteButton" Content="Delete" HorizontalAlignment="Center" Margin="36,62.6,484.8,0" VerticalAlignment="Top" Width="176" Height="46" Click="DeleteButton_Click" Background="#FFF7631D" FontSize="20" FontWeight="Bold" Grid.Row="1"/>
         <Label Name="label" Content="Usługa: " HorizontalAlignment="Left"  Margin="365.2,46,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="39" Width="285" FontWeight="Bold" FontSize="20" Foreground="Black" Grid.Column="1"/>
-        <TextBox Name ="NameBox" HorizontalAlignment="Left" Height="23" Margin="260,194,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="160"  TextAlignment="Center" Grid.RowSpan="2" />
-        <TextBox x:Name ="SizeBox" HorizontalAlignment="Left" Height="23" Margin="442,194,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="160"  TextAlignment="Center" Grid.RowSpan="2" />
+        <Label Content="Name" HorizontalAlignment="Left" Margin="319,162,0,0" VerticalAlignment="Top"/>
+        <Label Content="Size" HorizontalAlignment="Left" Margin="480,162,0,0" VerticalAlignment="Top"/>
+        <Label Content="Type" HorizontalAlignment="Left" Margin="586,162,0,0" VerticalAlignment="Top"/>
+        <Label Content="Creation Date" HorizontalAlignment="Left" Margin="660,162,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="107" Height="26"/>
+        <TextBox Name ="NameBox" HorizontalAlignment="Left" Height="23" Margin="260,194,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160"  TextAlignment="Center" Grid.RowSpan="2"  />
+        <TextBox x:Name ="SizeBox" HorizontalAlignment="Left" Height="23" Margin="442,194,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="109"  TextAlignment="Center" Grid.RowSpan="2" />
+        <TextBox x:Name ="TypeBox" HorizontalAlignment="Left" Height="23" Margin="570,194,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="58"  TextAlignment="Center" Grid.RowSpan="2" />
+        <TextBox x:Name ="DateBox" HorizontalAlignment="Left" Height="23" Margin="644,194,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="109"  TextAlignment="Center" Grid.RowSpan="2" Grid.ColumnSpan="2" />
+        <TextBox x:Name ="InfoBox" HorizontalAlignment="Left" Height="23" Margin="602,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="190"  TextAlignment="Center" Grid.ColumnSpan="2" BorderBrush="Black" Background="#FFCECECE" FontSize="14" Foreground="#FFFF0009" FontStyle="Italic" TextDecorations="{x:Null}" IsReadOnly="True"  />
 
     </Grid>
 </Window>
