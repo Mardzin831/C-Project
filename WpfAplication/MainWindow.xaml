@@ -22,8 +22,9 @@
         <Button x:Name ="AddButton" Content="Add" Grid.Column ="0" HorizontalAlignment="Center" Margin="36,173,484.8,0" VerticalAlignment="Top" Width="176" Height="55" Click="AddButton_Click" Background="#FF1DC33D" FontSize="20" FontWeight="Bold" Grid.RowSpan="2"/>
         <Button x:Name ="RefreshButton" Content="Refresh" HorizontalAlignment="Center" Margin="36,139.6,484.8,0" VerticalAlignment="Top" Width="176" Height="47" Click="RefreshButton_Click" Background="#FF805DCD" FontSize="20" FontWeight="Bold" Grid.Row="1"/>
         <Button x:Name ="DeleteButton" Content="Delete" HorizontalAlignment="Center" Margin="36,62.6,484.8,0" VerticalAlignment="Top" Width="176" Height="46" Click="DeleteButton_Click" Background="#FFF7631D" FontSize="20" FontWeight="Bold" Grid.Row="1"/>
-        <TextBox Name ="NameBox" HorizontalAlignment="Left" Height="23" Margin="260,194,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="160"  TextAlignment="Center" Grid.RowSpan="2" />
         <Label Name="label" Content="Usługa: " HorizontalAlignment="Left"  Margin="365.2,46,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="39" Width="285" FontWeight="Bold" FontSize="20" Foreground="Black" Grid.Column="1"/>
+        <TextBox Name ="NameBox" HorizontalAlignment="Left" Height="23" Margin="260,194,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="160"  TextAlignment="Center" Grid.RowSpan="2" />
+        <TextBox x:Name ="SizeBox" HorizontalAlignment="Left" Height="23" Margin="442,194,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="160"  TextAlignment="Center" Grid.RowSpan="2" />
 
     </Grid>
 </Window>
