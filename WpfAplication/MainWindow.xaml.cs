@@ -23,8 +23,8 @@ namespace WpfAplication
     {
         private ServiceController serviceController;
         private static string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
-            AttachDbFilename=C:\Users\Admin\Desktop\infa_studia\5semestr\C#\MyService\WpfAplication\Database.mdf;
-            Integrated Security=True";
+        AttachDbFilename=D:\infa_studia\5semestr\C#\MyService\WpfAplication\Database.mdf;
+        Integrated Security=True";
         private SqlConnection conn = new SqlConnection(connectionString);
         private SqlCommand command = new SqlCommand();
         SqlDataAdapter adapter = new SqlDataAdapter();
@@ -56,7 +56,6 @@ namespace WpfAplication
             
             conn.Open();
             ShowTab();
-
         }
             
         private void StartButton_Click(object sender, RoutedEventArgs e)
@@ -80,7 +79,7 @@ namespace WpfAplication
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             if(NameBox.Text != "" && int.TryParse(SizeBox.Text, out _) == true &&
-                (DateTime.TryParseExact(DateBox.Text, "M/d/yyyy h:mm:ss tt", 
+                (DateTime.TryParseExact(DateBox.Text, "M/d/yyyy h:mm:ss", 
                 new CultureInfo("en-US"), DateTimeStyles.None, out _) == true || DateBox.Text == ""))
             {
                 command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia) " +

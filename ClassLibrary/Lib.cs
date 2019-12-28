@@ -21,8 +21,8 @@ namespace ClassLibrary
         private FileSystemWatcher fileSystemWatcher = new FileSystemWatcher();
 
         private static string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
-            AttachDbFilename=C:\Users\Admin\Desktop\infa_studia\5semestr\C#\MyService\WpfAplication\Database.mdf;
-            Integrated Security=True";
+        AttachDbFilename=D:\infa_studia\5semestr\C#\MyService\WpfAplication\Database.mdf;
+        Integrated Security=True";
         private SqlConnection conn = new SqlConnection(connectionString);
         private SqlCommand command;
 
