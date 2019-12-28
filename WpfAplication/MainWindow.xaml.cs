@@ -79,8 +79,8 @@ namespace WpfAplication
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             if(NameBox.Text != "" && int.TryParse(SizeBox.Text, out _) == true &&
-                (DateTime.TryParseExact(DateBox.Text, "M/d/yyyy h:mm:ss", 
-                new CultureInfo("en-US"), DateTimeStyles.None, out _) == true || DateBox.Text == ""))
+                (DateTime.TryParseExact(DateBox.Text, "dd/MM/yyyy HH:mm:ss", 
+                new CultureInfo("en-GB"), DateTimeStyles.None, out _) == true || DateBox.Text == ""))
             {
                 command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia) " +
                     "values(@name, @size, @type, @date)", conn);
@@ -93,7 +93,9 @@ namespace WpfAplication
                 }
                 else
                 {
-                    command.Parameters.AddWithValue("@date", DateBox.Text);
+                    command.Parameters.AddWithValue("@date", 
+                        DateTime.ParseExact(DateBox.Text, "dd/MM/yyyy HH:mm:ss",
+                new CultureInfo("en-GB")));
                 }
                 
                 command.ExecuteNonQuery();
@@ -119,8 +121,13 @@ namespace WpfAplication
                 command.ExecuteNonQuery();
                 ShowTab();
             }
-
         }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowTab();
+        }
+
         public void ShowTab()
         {
             InfoBox.Text = "";
@@ -131,12 +138,11 @@ namespace WpfAplication
 
             dataGrid.ItemsSource = tab.DefaultView;
         }
-
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        private void OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            ShowTab();
+            if (e.PropertyType == typeof(DateTime))
+                (e.Column as DataGridTextColumn).Binding.StringFormat = "dd/MM/yyyy HH:mm:ss";
         }
 
-      
     }
 }
