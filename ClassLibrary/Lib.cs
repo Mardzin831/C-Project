@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -8,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -15,6 +18,16 @@ namespace ClassLibrary
 {
     public class Lib
     {
+
+        private static TimeSpan GetVideoDuration(string filePath)
+        {
+            using (var shell = ShellObject.FromParsingName(filePath))
+            {
+                IShellProperty prop = shell.Properties.System.Media.Duration;
+                var t = (ulong)prop.ValueAsObject;
+                return TimeSpan.FromTicks((long)t);
+            }
+        }
         private TraceSwitch traceSwitch;
         private EventLog eventLog;
         private string workingDirectory;
@@ -25,7 +38,7 @@ namespace ClassLibrary
         Integrated Security=True";
         private SqlConnection conn = new SqlConnection(connectionString);
         private SqlCommand command;
-
+       
         public void StartService()
         {
             workingDirectory = ConfigurationManager.AppSettings.Get("Sciezka");
@@ -43,40 +56,45 @@ namespace ClassLibrary
 
             fileSystemWatcher.Filter = "*.*";
             fileSystemWatcher.IncludeSubdirectories = true;
-
-            if (this.traceSwitch.TraceInfo)
+            
+            if (traceSwitch.TraceInfo)
             {
                 fileSystemWatcher.Changed += (Object sender, FileSystemEventArgs e) =>
                 {
-                    this.eventLog.WriteEntry(e.Name + " :changed\n");
+                    eventLog.WriteEntry(e.Name + " :changed\n");
                 };
             }
-            if (this.traceSwitch.TraceWarning)
+            if (traceSwitch.TraceWarning)
             {
                 fileSystemWatcher.Renamed += (object sender, RenamedEventArgs e) =>
                 {
-                    this.eventLog.WriteEntry(e.Name + " :renamed\n");
+                    eventLog.WriteEntry(e.Name + " :renamed\n");
                 };
             }
-            if (this.traceSwitch.TraceError)
+            if (traceSwitch.TraceError)
             {
                 fileSystemWatcher.Created += (Object sender, FileSystemEventArgs e) =>
                 {
-                    this.eventLog.WriteEntry(e.Name + " :created\n");
+                    eventLog.WriteEntry(e.Name + " :created\n");
 
                     conn.Open();
-                    command = new SqlCommand("insert into Table1(xd) values(@xd)", conn);
-                    command.Parameters.AddWithValue("@xd", "lol");
+                    var info = new FileInfo(e.FullPath);
+                    command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia) " +
+                    "values(@name, @size, @type, @date)", conn);
+                    command.Parameters.AddWithValue("@name", Path.GetFileNameWithoutExtension(e.FullPath));
+                    command.Parameters.AddWithValue("@size", info.Length);
+                    command.Parameters.AddWithValue("@type", e.FullPath.Substring(e.FullPath.LastIndexOf(".")));
+                    command.Parameters.AddWithValue("@date", DateTime.Now);
 
                     command.ExecuteNonQuery();
-                    
-                    command.Dispose();
+           
                     conn.Close();
+                    Thread.Sleep(1);
 
                 };
                 fileSystemWatcher.Deleted += (Object sender, FileSystemEventArgs e) =>
                 {
-                    this.eventLog.WriteEntry(e.Name + " :deleted\n");
+                    eventLog.WriteEntry(e.Name + " :deleted\n");
                 };
             }
             fileSystemWatcher.EnableRaisingEvents = true;
@@ -84,10 +102,11 @@ namespace ClassLibrary
         }
         public void StopService()
         {
+            command.Dispose();
             fileSystemWatcher.Dispose();
             
         }
 
-    
+        
     }
 }

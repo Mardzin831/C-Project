@@ -39,12 +39,12 @@ namespace WpfAplication
                 if (serviceController.Status == ServiceControllerStatus.Running)
                 {
                     StartButton.IsEnabled = false;
-                    label.Content = "Usługa: Włączona";
+                    label.Content = "Usługa: Uruchomiona";
                 }
                 else if (serviceController.Status == ServiceControllerStatus.Stopped)
                 {
                     StopButton.IsEnabled = false;
-                    label.Content = "Usługa: Wyłączona";
+                    label.Content = "Usługa: Uruchomiona";
                 }
             }
             else
@@ -64,7 +64,7 @@ namespace WpfAplication
             serviceController.WaitForStatus(ServiceControllerStatus.Running);
             StartButton.IsEnabled = false;
             StopButton.IsEnabled = true;
-            label.Content = "Usługa: Włączona";
+            label.Content = "Usługa: Uruchomiona";
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
@@ -73,7 +73,7 @@ namespace WpfAplication
             serviceController.WaitForStatus(ServiceControllerStatus.Stopped);
             StartButton.IsEnabled = true;
             StopButton.IsEnabled = false;
-            label.Content = "Usługa: Wyłączona";
+            label.Content = "Usługa: Zatrzymana";
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
