@@ -84,12 +84,11 @@ namespace ClassLibrary
                     command.Parameters.AddWithValue("@name", Path.GetFileNameWithoutExtension(e.FullPath));
                     command.Parameters.AddWithValue("@size", info.Length);
                     command.Parameters.AddWithValue("@type", e.FullPath.Substring(e.FullPath.LastIndexOf(".")));
-                    command.Parameters.AddWithValue("@date", DateTime.Now);
+                    command.Parameters.AddWithValue("@date", info.CreationTime);
 
                     command.ExecuteNonQuery();
            
-                    conn.Close();
-                    Thread.Sleep(1);
+                    
 
                 };
                 fileSystemWatcher.Deleted += (Object sender, FileSystemEventArgs e) =>
@@ -102,9 +101,10 @@ namespace ClassLibrary
         }
         public void StopService()
         {
-            command.Dispose();
             fileSystemWatcher.Dispose();
-            
+            conn.Close();
+            Thread.Sleep(1);
+
         }
 
         

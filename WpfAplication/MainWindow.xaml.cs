@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,7 +22,7 @@ namespace WpfAplication
 {
     public partial class MainWindow : Window
     {
-        private ServiceController serviceController;
+        public ServiceController serviceController;
         private static string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
         AttachDbFilename=D:\infa_studia\5semestr\C#\MyService\WpfAplication\Database.mdf;
         Integrated Security=True";
@@ -44,7 +45,7 @@ namespace WpfAplication
                 else if (serviceController.Status == ServiceControllerStatus.Stopped)
                 {
                     StopButton.IsEnabled = false;
-                    label.Content = "Usługa: Uruchomiona";
+                    label.Content = "Usługa: Zatrzymana";
                 }
             }
             else
@@ -64,7 +65,13 @@ namespace WpfAplication
             serviceController.WaitForStatus(ServiceControllerStatus.Running);
             StartButton.IsEnabled = false;
             StopButton.IsEnabled = true;
+            AddButton.IsEnabled = false;
+            DeleteButton.IsEnabled = false;
+            RefreshButton.IsEnabled = false;
             label.Content = "Usługa: Uruchomiona";
+            conn.Close();
+            Thread.Sleep(1);
+
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
@@ -73,7 +80,12 @@ namespace WpfAplication
             serviceController.WaitForStatus(ServiceControllerStatus.Stopped);
             StartButton.IsEnabled = true;
             StopButton.IsEnabled = false;
+            AddButton.IsEnabled = true;
+            DeleteButton.IsEnabled = true;
+            RefreshButton.IsEnabled = true;
             label.Content = "Usługa: Zatrzymana";
+            conn.Open();
+            Thread.Sleep(1);
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
