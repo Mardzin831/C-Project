@@ -41,6 +41,7 @@ namespace ClassLibrary
        
         public void StartService()
         {
+            Thread.Sleep(1);
             workingDirectory = ConfigurationManager.AppSettings.Get("Sciezka");
             String sourceName = ConfigurationManager.AppSettings.Get("Zrodlo");
             String eventLogName = ConfigurationManager.AppSettings.Get("Dziennik");
@@ -97,10 +98,11 @@ namespace ClassLibrary
                 };
             }
             fileSystemWatcher.EnableRaisingEvents = true;
-            
+            Thread.Sleep(1);
         }
         public void StopService()
         {
+            Thread.Sleep(1);
             fileSystemWatcher.Dispose();
             conn.Close();
             Thread.Sleep(1);

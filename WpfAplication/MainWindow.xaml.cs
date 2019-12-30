@@ -61,6 +61,9 @@ namespace WpfAplication
             
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
+            conn.Close();
+            Thread.Sleep(1);
+
             serviceController.Start();
             serviceController.WaitForStatus(ServiceControllerStatus.Running);
             StartButton.IsEnabled = false;
@@ -69,13 +72,13 @@ namespace WpfAplication
             DeleteButton.IsEnabled = false;
             RefreshButton.IsEnabled = false;
             label.Content = "Usługa: Uruchomiona";
-            conn.Close();
-            Thread.Sleep(1);
-
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
+            conn.Open();
+            Thread.Sleep(1);
+
             serviceController.Stop();
             serviceController.WaitForStatus(ServiceControllerStatus.Stopped);
             StartButton.IsEnabled = true;
@@ -84,8 +87,6 @@ namespace WpfAplication
             DeleteButton.IsEnabled = true;
             RefreshButton.IsEnabled = true;
             label.Content = "Usługa: Zatrzymana";
-            conn.Open();
-            Thread.Sleep(1);
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
