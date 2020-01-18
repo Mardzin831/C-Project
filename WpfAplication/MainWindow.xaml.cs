@@ -75,13 +75,9 @@ namespace WpfAplication
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
-        {
-           
+        {      
             serviceController.Stop();
             serviceController.WaitForStatus(ServiceControllerStatus.Stopped);
-            
-    
-            conn.Open();
 
             StartButton.IsEnabled = true;
             StopButton.IsEnabled = false;
@@ -93,6 +89,7 @@ namespace WpfAplication
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
+            conn.Open();
             if(NameBox.Text != "" && int.TryParse(SizeBox.Text, out _) == true &&
                 (DateTime.TryParseExact(DateBox.Text, "dd/MM/yyyy HH:mm:ss", 
                 new CultureInfo("en-GB"), DateTimeStyles.None, out _) == true || DateBox.Text == ""))
@@ -124,6 +121,7 @@ namespace WpfAplication
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
+            conn.Open();
             DataRowView selected = dataGrid.SelectedItem as DataRowView;
             if (selected != null)
             {
