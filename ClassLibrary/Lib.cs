@@ -37,11 +37,10 @@ namespace ClassLibrary
         AttachDbFilename=D:\infa_studia\5semestr\C#\MyService\WpfAplication\Database.mdf;
         Integrated Security=True";
         private SqlConnection conn = new SqlConnection(connectionString);
-        private SqlCommand command;
+        
        
         public void StartService()
         {
-            Thread.Sleep(1);
             workingDirectory = ConfigurationManager.AppSettings.Get("Sciezka");
             String sourceName = ConfigurationManager.AppSettings.Get("Zrodlo");
             String eventLogName = ConfigurationManager.AppSettings.Get("Dziennik");
@@ -57,7 +56,8 @@ namespace ClassLibrary
 
             fileSystemWatcher.Filter = "*.*";
             fileSystemWatcher.IncludeSubdirectories = true;
-            
+            conn.Open();
+
             if (traceSwitch.TraceInfo)
             {
                 fileSystemWatcher.Changed += (Object sender, FileSystemEventArgs e) =>
@@ -78,19 +78,20 @@ namespace ClassLibrary
                 {
                     eventLog.WriteEntry(e.Name + " :created\n");
 
-                    conn.Open();
-                    var info = new FileInfo(e.FullPath);
-                    command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia) " +
-                    "values(@name, @size, @type, @date)", conn);
-                    command.Parameters.AddWithValue("@name", Path.GetFileNameWithoutExtension(e.FullPath));
-                    command.Parameters.AddWithValue("@size", info.Length);
-                    command.Parameters.AddWithValue("@type", e.FullPath.Substring(e.FullPath.LastIndexOf(".")));
-                    command.Parameters.AddWithValue("@date", info.CreationTime);
-
-                    command.ExecuteNonQuery();
-           
-                    
-
+                 
+                    using (SqlCommand command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia) " +
+                    "values(@name, @size, @type, @date)", conn))
+                    {
+                        var info = new FileInfo(e.FullPath);
+                        command.Parameters.AddWithValue("@name", Path.GetFileNameWithoutExtension(e.FullPath));
+                        command.Parameters.AddWithValue("@size", info.Length);
+                        command.Parameters.AddWithValue("@type", e.FullPath.Substring(e.FullPath.LastIndexOf(".")));
+                        command.Parameters.AddWithValue("@date", info.CreationTime);
+                        
+                        command.ExecuteNonQuery();
+                        command.Dispose();
+                        
+                    }
                 };
                 fileSystemWatcher.Deleted += (Object sender, FileSystemEventArgs e) =>
                 {
@@ -98,15 +99,12 @@ namespace ClassLibrary
                 };
             }
             fileSystemWatcher.EnableRaisingEvents = true;
-            Thread.Sleep(1);
         }
         public void StopService()
         {
-            Thread.Sleep(1);
-            fileSystemWatcher.Dispose();
             conn.Close();
-            Thread.Sleep(1);
-
+            fileSystemWatcher.Dispose();
+            eventLog.Dispose();
         }
 
         

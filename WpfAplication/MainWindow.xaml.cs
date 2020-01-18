@@ -29,7 +29,7 @@ namespace WpfAplication
         private SqlConnection conn = new SqlConnection(connectionString);
         private SqlCommand command = new SqlCommand();
         SqlDataAdapter adapter = new SqlDataAdapter();
-        DataTable tab = new DataTable("Tab");
+        DataTable tab;
         public MainWindow()
         {
             InitializeComponent();
@@ -55,17 +55,17 @@ namespace WpfAplication
                 label.Content = "Usługa: Nie istnieje";
             }
             
-            conn.Open();
             ShowTab();
         }
             
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             conn.Close();
-            Thread.Sleep(1);
-
+            SqlConnection.ClearAllPools();
+            
             serviceController.Start();
             serviceController.WaitForStatus(ServiceControllerStatus.Running);
+
             StartButton.IsEnabled = false;
             StopButton.IsEnabled = true;
             AddButton.IsEnabled = false;
@@ -76,11 +76,13 @@ namespace WpfAplication
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
-            conn.Open();
-            Thread.Sleep(1);
-
+           
             serviceController.Stop();
             serviceController.WaitForStatus(ServiceControllerStatus.Stopped);
+            
+    
+            conn.Open();
+
             StartButton.IsEnabled = true;
             StopButton.IsEnabled = false;
             AddButton.IsEnabled = true;
@@ -143,13 +145,16 @@ namespace WpfAplication
 
         public void ShowTab()
         {
+            tab = new DataTable("Tab");
             InfoBox.Text = "";
-            tab.Clear();
-            command = new SqlCommand("select * from Tab", conn); ;
+            command = new SqlCommand("select * from Tab", conn); 
             adapter = new SqlDataAdapter(command);
             adapter.Fill(tab);
-
             dataGrid.ItemsSource = tab.DefaultView;
+            conn.Close();
+            command.Dispose();
+            adapter.Dispose();
+            tab.Dispose();
         }
         private void OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
