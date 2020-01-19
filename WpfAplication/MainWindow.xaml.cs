@@ -94,8 +94,8 @@ namespace WpfAplication
                 (DateTime.TryParseExact(DateBox.Text, "dd/MM/yyyy HH:mm:ss", 
                 new CultureInfo("en-GB"), DateTimeStyles.None, out _) == true || DateBox.Text == ""))
             {
-                command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia) " +
-                    "values(@name, @size, @type, @date)", conn);
+                command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia, CzasVideo) " +
+                    "values(@name, @size, @type, @date, @timespan)", conn);
                 command.Parameters.AddWithValue("@name", NameBox.Text);
                 command.Parameters.AddWithValue("@size", SizeBox.Text);
                 command.Parameters.AddWithValue("@type", TypeBox.Text);
@@ -106,10 +106,10 @@ namespace WpfAplication
                 else
                 {
                     command.Parameters.AddWithValue("@date", 
-                        DateTime.ParseExact(DateBox.Text, "dd/MM/yyyy HH:mm:ss",
-                new CultureInfo("en-GB")));
+                        DateTime.ParseExact(DateBox.Text, "dd/MM/yyyy HH:mm:ss", new CultureInfo("en-GB")));
                 }
-                
+                command.Parameters.AddWithValue("@timespan", TimeSpan.ParseExact(TimeSpanBox.Text, @"h\:mm\:ss", null));
+
                 command.ExecuteNonQuery();
                 ShowTab();
             }

@@ -18,16 +18,6 @@ namespace ClassLibrary
 {
     public class Lib
     {
-
-        private static TimeSpan GetVideoDuration(string filePath)
-        {
-            using (var shell = ShellObject.FromParsingName(filePath))
-            {
-                IShellProperty prop = shell.Properties.System.Media.Duration;
-                var t = (ulong)prop.ValueAsObject;
-                return TimeSpan.FromTicks((long)t);
-            }
-        }
         private TraceSwitch traceSwitch;
         private EventLog eventLog;
         private string workingDirectory;
@@ -37,8 +27,6 @@ namespace ClassLibrary
         AttachDbFilename=D:\infa_studia\5semestr\C#\MyService\WpfAplication\Database.mdf;
         Integrated Security=True";
         private SqlConnection conn = new SqlConnection(connectionString);
-        
-       
         public void StartService()
         {
             workingDirectory = ConfigurationManager.AppSettings.Get("Sciezka");
@@ -79,15 +67,15 @@ namespace ClassLibrary
                     eventLog.WriteEntry(e.Name + " :created\n");
 
                  
-                    using (SqlCommand command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia) " +
-                    "values(@name, @size, @type, @date)", conn))
+                    using (SqlCommand command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia, CzasVideo) " +
+                    "values(@name, @size, @type, @date, @timespan)", conn))
                     {
                         var info = new FileInfo(e.FullPath);
                         command.Parameters.AddWithValue("@name", Path.GetFileNameWithoutExtension(e.FullPath));
                         command.Parameters.AddWithValue("@size", info.Length);
                         command.Parameters.AddWithValue("@type", e.FullPath.Substring(e.FullPath.LastIndexOf(".")));
                         command.Parameters.AddWithValue("@date", info.CreationTime);
-                        
+                        command.Parameters.AddWithValue("@timespan", GetVideoDuration(e.FullPath));
                         command.ExecuteNonQuery();
                         command.Dispose();
                         
@@ -106,7 +94,22 @@ namespace ClassLibrary
             fileSystemWatcher.Dispose();
             eventLog.Dispose();
         }
+        private static TimeSpan GetVideoDuration(string filePath)
+        {
+            using (var shell = ShellObject.FromParsingName(filePath))
+            {
+                IShellProperty prop = shell.Properties.System.Media.Duration;
+                if (prop.ValueAsObject == null)
+                {
+                    return new TimeSpan(0);
+                }
+                var t = (ulong)prop.ValueAsObject;
+                TimeSpan ts = TimeSpan.FromTicks((long)t);
+                
+                return new TimeSpan(ts.Hours, ts.Minutes, ts.Seconds);
+            }
+        }
 
-        
+
     }
 }
