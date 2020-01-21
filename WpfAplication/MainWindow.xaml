@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfAplication"
         mc:Ignorable="d"
         
-        Title="AplikacjaProjektu" Height="800" Width="1400" HorizontalContentAlignment="Center" WindowStartupLocation="CenterScreen">
+        Title="AplikacjaProjektu" Height="800" Width="1500" HorizontalContentAlignment="Center" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -21,21 +21,21 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button Name ="StartButton" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="57" Click="StartButton_Click" Background="#FF6EED2A" FontSize="20" FontWeight="Bold" BorderThickness="1" BorderBrush="Gray" Margin="1191,156,0,0">
+        <Button Name ="StartButton" Content="Start" VerticalAlignment="Top" Height="57" Click="StartButton_Click" Background="#FF6EED2A" FontSize="20" FontWeight="Bold" BorderThickness="1" BorderBrush="Gray" Margin="1253,245,0,0" HorizontalAlignment="Left" Width="150">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="20"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button Name ="StopButton" Content="Stop" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="57" Click="StopButton_Click" Background="#FFEA4B38" FontSize="20" FontWeight="Bold" BorderThickness="1" BorderBrush="Gray" Margin="1191,235,0,0">
+        <Button Name ="StopButton" Content="Stop" VerticalAlignment="Top" Height="57" Click="StopButton_Click" Background="#FFEA4B38" FontSize="20" FontWeight="Bold" BorderThickness="1" BorderBrush="Gray" Margin="1253,323,0,0" HorizontalAlignment="Left" Width="150">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="20"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <DataGrid Name ="dataGrid" AutoGeneratingColumn="OnAutoGeneratingColumn" HorizontalAlignment="Left" Height="442" Margin="260,261,0,0" VerticalAlignment="Top" Width="897" IsReadOnly="True" BorderThickness="1" BorderBrush="Gray" Foreground="Black" Padding="10">
+        <DataGrid Name ="dataGrid" AutoGeneratingColumn="OnAutoGeneratingColumn" HorizontalAlignment="Left" Height="442" Margin="260,266,0,0" VerticalAlignment="Top" Width="871" IsReadOnly="True" BorderThickness="1" BorderBrush="Gray" Foreground="Black" Padding="10">
             <DataGrid.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="20"/>
@@ -48,21 +48,21 @@
                 </LinearGradientBrush>
             </DataGrid.Background>
         </DataGrid>
-        <Button x:Name ="AddButton" Content="Dodaj" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="45" Click="AddButton_Click" Background="#FF1DC33D" FontSize="20" FontWeight="Bold" BorderThickness="1" BorderBrush="Gray" Margin="0,182,1192.6,0">
+        <Button x:Name ="AddButton" Content="Dodaj" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="45" Click="AddButton_Click" Background="#FF1DC33D" FontSize="20" FontWeight="Bold" BorderThickness="1" BorderBrush="Gray" Margin="0,194,1292.6,0">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="20"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button x:Name ="RefreshButton" Content="Odśwież" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="45" Click="RefreshButton_Click" Background="#FF805DCD" FontSize="20" FontWeight="Bold" BorderThickness="1" BorderBrush="Gray" Margin="0,298,1192.6,0">
+        <Button x:Name ="RefreshButton" Content="Odśwież" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="45" Click="RefreshButton_Click" Background="#FF805DCD" FontSize="20" FontWeight="Bold" BorderThickness="1" BorderBrush="Gray" Margin="0,310,1292.6,0">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="20"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button x:Name ="DeleteButton" Content="Usuń" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="45" Click="DeleteButton_Click" Background="#FFF7631D" FontSize="20" FontWeight="Bold" BorderThickness="1" BorderBrush="Gray" Margin="0,241,1192.6,0">
+        <Button x:Name ="DeleteButton" Content="Usuń" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="45" Click="DeleteButton_Click" Background="#FFF7631D" FontSize="20" FontWeight="Bold" BorderThickness="1" BorderBrush="Gray" Margin="0,253,1292.6,0">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="20"/>
@@ -70,7 +70,7 @@
             </Button.Resources>
         </Button>
         <Label Content="* - wymagane" HorizontalAlignment="Left" Margin="51,33,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="150" BorderThickness="1" BorderBrush="Gray" Height="35"/>
-        <Label Name="label" Content="Usługa:" HorizontalAlignment="Left"  Margin="1161,70,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="39" Width="200" FontWeight="Bold" FontSize="18" Foreground="Red" Background="#FF46D4F7" FontStyle="Italic" BorderThickness="2" BorderBrush="Black">
+        <Label Name="label" Content="Usługa:" HorizontalAlignment="Left"  Margin="1228,178,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="39" Width="200" FontWeight="Bold" FontSize="18" Foreground="Red" Background="#FF46D4F7" FontStyle="Italic" BorderThickness="2" BorderBrush="Black">
             <Label.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="20"/>
@@ -109,7 +109,7 @@
                 </Style>
             </TextBox.Resources>
         </TextBox>
-        <TextBox x:Name ="InfoBox" HorizontalAlignment="Left" Height="57" Margin="508,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="419"  TextAlignment="Center" Background="#FF0ECFE2" FontSize="30" Foreground="#FFFF0009" IsReadOnly="True" FontStyle="Italic" FontWeight="Bold" IsEnabled="False" BorderThickness="2" BorderBrush="Black" Padding="3">
+        <TextBox x:Name ="InfoBox" HorizontalAlignment="Left" Height="57" Margin="425,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="419"  TextAlignment="Center" Background="#FF0ECFE2" FontSize="30" Foreground="#FFFF0009" IsReadOnly="True" FontStyle="Italic" FontWeight="Bold" IsEnabled="False" BorderThickness="2" BorderBrush="Black" Padding="3">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -124,6 +124,20 @@
             </TextBox.Resources>
         </TextBox>
         <Label Content="Czas Video" HorizontalAlignment="Left" Margin="761,162,0,582.4" HorizontalContentAlignment="Center" VerticalAlignment="Center" Width="111" Height="26"/>
+        <Button x:Name ="FolderButton" Content="Wybierz Folder" VerticalAlignment="Top" Height="52" Click="FolderButton_Click" Background="#FF1D6DC3" FontSize="20" FontWeight="Bold" BorderThickness="1" BorderBrush="Gray" Margin="1086,57,0,0" HorizontalAlignment="Left" Width="200">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="20"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <TextBox x:Name ="FolderBox" HorizontalAlignment="Left" Height="35" Margin="977,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="418"  TextAlignment="Center" Background="#FF0ECFE2" FontSize="12" Foreground="#FFFF0009" IsReadOnly="True" FontStyle="Italic" FontWeight="Bold" BorderThickness="2" BorderBrush="Black" Padding="6">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
 
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -10,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using ClassLibrary;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -33,10 +35,15 @@ namespace WpfAplication
         public MainWindow()
         {
             InitializeComponent();
+            
             if (ServiceController.GetServices().Any(serviceController =>
                  serviceController.ServiceName.Equals("UslugaProjektu")) == true)
             {
                 serviceController = new ServiceController("UslugaProjektu");
+
+                var config = ConfigurationManager.OpenExeConfiguration(@".\MyService.exe");
+                FolderBox.Text = config.AppSettings.Settings["Sciezka"].Value;
+
                 if (serviceController.Status == ServiceControllerStatus.Running)
                 {
                     StartButton.IsEnabled = false;
@@ -71,6 +78,7 @@ namespace WpfAplication
             AddButton.IsEnabled = false;
             DeleteButton.IsEnabled = false;
             RefreshButton.IsEnabled = false;
+            FolderButton.IsEnabled = false;
             label.Content = "Usługa: Uruchomiona";
         }
 
@@ -84,16 +92,17 @@ namespace WpfAplication
             AddButton.IsEnabled = true;
             DeleteButton.IsEnabled = true;
             RefreshButton.IsEnabled = true;
+            FolderButton.IsEnabled = true;
             label.Content = "Usługa: Zatrzymana";
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            conn.Open();
             if(NameBox.Text != "" && int.TryParse(SizeBox.Text, out _) == true &&
                 (DateTime.TryParseExact(DateBox.Text, "dd/MM/yyyy HH:mm:ss", 
                 new CultureInfo("en-GB"), DateTimeStyles.None, out _) == true || DateBox.Text == ""))
             {
+                conn.Open();
                 command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia, CzasVideo) " +
                     "values(@name, @size, @type, @date, @timespan)", conn);
                 command.Parameters.AddWithValue("@name", NameBox.Text);
@@ -108,8 +117,15 @@ namespace WpfAplication
                     command.Parameters.AddWithValue("@date", 
                         DateTime.ParseExact(DateBox.Text, "dd/MM/yyyy HH:mm:ss", new CultureInfo("en-GB")));
                 }
-                command.Parameters.AddWithValue("@timespan", TimeSpan.ParseExact(TimeSpanBox.Text, @"h\:mm\:ss", null));
-
+                if(TimeSpanBox.Text == "")
+                {
+                    command.Parameters.AddWithValue("@timespan", new TimeSpan(0));
+                }
+                else
+                {
+                    command.Parameters.AddWithValue("@timespan", TimeSpan.ParseExact(TimeSpanBox.Text, @"h\:mm\:ss", null));
+                }
+                
                 command.ExecuteNonQuery();
                 ShowTab();
             }
@@ -121,10 +137,11 @@ namespace WpfAplication
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            conn.Open();
+            
             DataRowView selected = dataGrid.SelectedItem as DataRowView;
             if (selected != null)
             {
+                conn.Open();
                 string cell = selected.Row.ItemArray[0].ToString();
                 int id = int.Parse(cell);
 
@@ -140,7 +157,6 @@ namespace WpfAplication
         {
             ShowTab();
         }
-
         public void ShowTab()
         {
             tab = new DataTable("Tab");
@@ -160,5 +176,19 @@ namespace WpfAplication
                 (e.Column as DataGridTextColumn).Binding.StringFormat = "dd/MM/yyyy HH:mm:ss";
         }
 
+        private void FolderButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
+            if (dialog.ShowDialog(this).GetValueOrDefault())
+            {
+                FolderBox.Text = dialog.SelectedPath;
+
+                var config = ConfigurationManager.OpenExeConfiguration(@".\MyService.exe");
+                config.AppSettings.Settings["Sciezka"].Value = dialog.SelectedPath;
+                config.Save(ConfigurationSaveMode.Modified);
+
+                ConfigurationManager.RefreshSection("appSettings");
+            }
+        }
     }
 }

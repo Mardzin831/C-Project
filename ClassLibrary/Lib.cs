@@ -27,11 +27,12 @@ namespace ClassLibrary
         AttachDbFilename=D:\infa_studia\5semestr\C#\MyService\WpfAplication\Database.mdf;
         Integrated Security=True";
         private SqlConnection conn = new SqlConnection(connectionString);
+
         public void StartService()
         {
             workingDirectory = ConfigurationManager.AppSettings.Get("Sciezka");
-            String sourceName = ConfigurationManager.AppSettings.Get("Zrodlo");
-            String eventLogName = ConfigurationManager.AppSettings.Get("Dziennik");
+            string sourceName = ConfigurationManager.AppSettings.Get("Zrodlo");
+            string eventLogName = ConfigurationManager.AppSettings.Get("Dziennik");
             if (!EventLog.SourceExists(sourceName, "."))
             {
                 EventLog.CreateEventSource(sourceName, eventLogName);
@@ -41,7 +42,7 @@ namespace ClassLibrary
             fileSystemWatcher = new FileSystemWatcher();
 
             fileSystemWatcher.Path = workingDirectory;
-
+            fileSystemWatcher.NotifyFilter = NotifyFilters.LastAccess| NotifyFilters.LastWrite| NotifyFilters.FileName;
             fileSystemWatcher.Filter = "*.*";
             fileSystemWatcher.IncludeSubdirectories = true;
             conn.Open();
@@ -65,7 +66,6 @@ namespace ClassLibrary
                 fileSystemWatcher.Created += (Object sender, FileSystemEventArgs e) =>
                 {
                     eventLog.WriteEntry(e.Name + " :created\n");
-
                  
                     using (SqlCommand command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia, CzasVideo) " +
                     "values(@name, @size, @type, @date, @timespan)", conn))
@@ -109,7 +109,5 @@ namespace ClassLibrary
                 return new TimeSpan(ts.Hours, ts.Minutes, ts.Seconds);
             }
         }
-
-
     }
 }
