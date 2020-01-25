@@ -25,15 +25,15 @@ namespace WpfAplication
     public partial class MainWindow : Window
     {
         public ServiceController serviceController;
-        private static string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
-        AttachDbFilename=D:\infa_studia\5semestr\C#\MyService\WpfAplication\Database.mdf;
-        Integrated Security=True";
+        private static string connectionString = ConfigurationManager.ConnectionStrings["localDB"].ConnectionString;
         private SqlConnection conn = new SqlConnection(connectionString);
         private SqlCommand command = new SqlCommand();
         SqlDataAdapter adapter = new SqlDataAdapter();
         DataTable tab;
         public MainWindow()
         {
+            //Height = (SystemParameters.PrimaryScreenHeight * 0.9);
+            //Width = (SystemParameters.PrimaryScreenWidth * 0.9);
             InitializeComponent();
             
             if (ServiceController.GetServices().Any(serviceController =>
@@ -131,7 +131,7 @@ namespace WpfAplication
             }
             else
             {
-                InfoBox.Text = "Błędnie wprowadzone dane!";
+                MessageBox.Show("Błędnie wprowadzone dane!");
             }
         }
 
@@ -160,11 +160,11 @@ namespace WpfAplication
         public void ShowTab()
         {
             tab = new DataTable("Tab");
-            InfoBox.Text = "";
             command = new SqlCommand("select * from Tab", conn); 
             adapter = new SqlDataAdapter(command);
             adapter.Fill(tab);
             dataGrid.ItemsSource = tab.DefaultView;
+                        
             conn.Close();
             command.Dispose();
             adapter.Dispose();

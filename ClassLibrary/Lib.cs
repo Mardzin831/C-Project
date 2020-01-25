@@ -23,9 +23,7 @@ namespace ClassLibrary
         private string workingDirectory;
         private FileSystemWatcher fileSystemWatcher = new FileSystemWatcher();
 
-        private static string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
-        AttachDbFilename=D:\infa_studia\5semestr\C#\MyService\WpfAplication\Database.mdf;
-        Integrated Security=True";
+        private static string connectionString = ConfigurationManager.ConnectionStrings["localDB"].ConnectionString;
         private SqlConnection conn = new SqlConnection(connectionString);
 
         public void StartService()
@@ -65,6 +63,7 @@ namespace ClassLibrary
             {
                 fileSystemWatcher.Created += (Object sender, FileSystemEventArgs e) =>
                 {
+
                     eventLog.WriteEntry(e.Name + " :created\n");
                  
                     using (SqlCommand command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia, CzasVideo) " +
