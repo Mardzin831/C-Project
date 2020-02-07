@@ -85,46 +85,55 @@
                 </Style>
             </Label.Resources>
         </Label>
-        <Label Content="*Nazwa" Margin="27.4,0,0,48.8" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="2" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="161"/>
-        <Label Content="*Rozmiar (Bajty)" Margin="207.4,0,0,48.8" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="2" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="131"/>
-        <Label Content="Typ" Margin="346.4,0,0,48.8" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Width="64" Height="26" VerticalAlignment="Bottom"/>
-        <Label Content="        Data Utworzenia&#xD;&#xA; (dd/MM/yyyy HH:mm:ss)" Margin="425.4,0,0,42.8" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="2" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="144"/>
-        <TextBox Name ="NameBox" Margin="33.4,0,0,21.8" TextWrapping="Wrap" Text="" TextAlignment="Center" Padding="1.5" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Width="161" Height="22" VerticalAlignment="Bottom">
+        <Label Content="*Nazwa" Margin="21.4,0,0,48.8" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="2" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="167"/>
+        <Label Content="*Rozmiar (Bajty)" Margin="203.4,0,0,48.8" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="2" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="131"/>
+        <Label Content="Typ" Margin="342.4,0,0,48.8" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Width="64" Height="26" VerticalAlignment="Bottom"/>
+        <Label Content="        Data Utworzenia&#xD;&#xA; (dd/MM/yyyy HH:mm:ss)" Margin="415.4,0,0,42.8" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="2" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="144"/>
+        <TextBox Name ="NameBox" Margin="27.4,0,0,21.8" TextWrapping="Wrap" Text="" TextAlignment="Center" Padding="1.5" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Width="167" Height="22" VerticalAlignment="Bottom">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
                 </Style>
             </TextBox.Resources>
         </TextBox>
-        <TextBox x:Name ="SizeBox" Margin="207.4,0,0,21.8" TextWrapping="Wrap" Text=""  TextAlignment="Center" Padding="1.5" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Width="131" Height="22" VerticalAlignment="Bottom">
+        <TextBox x:Name ="SizeBox" Margin="203.4,0,0,21.8" TextWrapping="Wrap" Text=""  TextAlignment="Center" Padding="1.5" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Width="131" Height="22" VerticalAlignment="Bottom">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
                 </Style>
             </TextBox.Resources>
         </TextBox>
-        <TextBox x:Name ="TypeBox" Margin="346.4,0,0,21.8" TextWrapping="Wrap" Text="" TextAlignment="Center" Padding="1.5" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Width="64" Height="22" VerticalAlignment="Bottom">
+        <TextBox x:Name ="TypeBox" Margin="342.4,0,0,21.8" TextWrapping="Wrap" Text="" TextAlignment="Center" Padding="1.5" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Width="64" Height="22" VerticalAlignment="Bottom">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
                 </Style>
             </TextBox.Resources>
         </TextBox>
-        <TextBox x:Name ="DateBox" Margin="425.4,0,0,21.8" TextWrapping="Wrap" Text="" TextAlignment="Center" Padding="1.5" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Width="144" Height="22" VerticalAlignment="Bottom">
+        <TextBox x:Name ="DateBox" Margin="415.4,0,0,21.8" TextWrapping="Wrap" Text="" TextAlignment="Center" Padding="1.5" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Width="144" Height="22" VerticalAlignment="Bottom">
             <TextBox.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
                 </Style>
             </TextBox.Resources>
         </TextBox>
-        <TextBox x:Name ="TimeSpanBox" Margin="591.4,0,0,21.8" TextWrapping="Wrap" Text="" TextAlignment="Center" Padding="1.5" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Width="85" Height="22" VerticalAlignment="Bottom">
+        <TextBox x:Name ="TimeSpanBox" Margin="568.4,0,0,21.8" TextWrapping="Wrap" Text="" TextAlignment="Center" Padding="1.5" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Width="85" Height="22" VerticalAlignment="Bottom">
             <TextBox.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="10"/>
                 </Style>
             </TextBox.Resources>
         </TextBox>
-        <Label Content="Czas Video" Margin="591.4,0,0,48.8" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="2" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="85"/>
+        <Label Content="Czas Video" Margin="568.4,0,0,48.8" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="2" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="85" RenderTransformOrigin="0.5,0.5">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="-12.095"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="-2.786"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
         <Button x:Name ="FolderButton" Content="Wybierz Folder" Click="FolderButton_Click" Background="#FF1D6DC3" FontSize="20" FontWeight="Bold" BorderThickness="1" BorderBrush="Gray" Margin="639.4,5.2,0,0" Grid.Column="1" Grid.Row="1" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Width="180" Padding="5">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">

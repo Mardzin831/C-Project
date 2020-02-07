@@ -1,24 +1,13 @@
 ﻿using System;
 using System.Configuration;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using ClassLibrary;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace WpfAplication
 {
@@ -35,7 +24,7 @@ namespace WpfAplication
             //Height = (SystemParameters.PrimaryScreenHeight * 0.9);
             //Width = (SystemParameters.PrimaryScreenWidth * 0.9);
             InitializeComponent();
-            
+
             if (ServiceController.GetServices().Any(serviceController =>
                  serviceController.ServiceName.Equals("UslugaProjektu")) == true)
             {
@@ -61,7 +50,6 @@ namespace WpfAplication
                 StopButton.IsEnabled = false;
                 label.Content = "Usługa: Nie istnieje";
             }
-            
             ShowTab();
         }
             
@@ -134,7 +122,6 @@ namespace WpfAplication
                 MessageBox.Show("Błędnie wprowadzone dane!");
             }
         }
-
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             
@@ -164,7 +151,7 @@ namespace WpfAplication
             adapter = new SqlDataAdapter(command);
             adapter.Fill(tab);
             dataGrid.ItemsSource = tab.DefaultView;
-                        
+
             conn.Close();
             command.Dispose();
             adapter.Dispose();

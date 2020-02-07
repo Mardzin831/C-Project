@@ -1,18 +1,11 @@
 ﻿using Microsoft.WindowsAPICodePack.Shell;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace ClassLibrary
 {
@@ -22,9 +15,7 @@ namespace ClassLibrary
         private EventLog eventLog;
         private string workingDirectory;
         private FileSystemWatcher fileSystemWatcher = new FileSystemWatcher();
-
-        private static string connectionString = ConfigurationManager.ConnectionStrings["localDB"].ConnectionString;
-        private SqlConnection conn = new SqlConnection(connectionString);
+        private SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["localDB"].ConnectionString);
 
         public void StartService()
         {
@@ -34,6 +25,7 @@ namespace ClassLibrary
             if (!EventLog.SourceExists(sourceName, "."))
             {
                 EventLog.CreateEventSource(sourceName, eventLogName);
+                throw new ArgumentException("Dziennik nie istnieje!");
             }
             eventLog = new EventLog(eventLogName, ".", sourceName);
             traceSwitch = new TraceSwitch("Logowanie", "Level of loging done on directory");
@@ -63,7 +55,6 @@ namespace ClassLibrary
             {
                 fileSystemWatcher.Created += (Object sender, FileSystemEventArgs e) =>
                 {
-
                     eventLog.WriteEntry(e.Name + " :created\n");
                  
                     using (SqlCommand command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia, CzasVideo) " +
@@ -77,7 +68,6 @@ namespace ClassLibrary
                         command.Parameters.AddWithValue("@timespan", GetVideoDuration(e.FullPath));
                         command.ExecuteNonQuery();
                         command.Dispose();
-                        
                     }
                 };
                 fileSystemWatcher.Deleted += (Object sender, FileSystemEventArgs e) =>
@@ -89,11 +79,16 @@ namespace ClassLibrary
         }
         public void StopService()
         {
+            if(conn.State == ConnectionState.Closed)
+            {
+                throw new Exception("Już zamknięte!");
+            }
             conn.Close();
             fileSystemWatcher.Dispose();
             eventLog.Dispose();
         }
-        private static TimeSpan GetVideoDuration(string filePath)
+        //static?
+        public TimeSpan GetVideoDuration(string filePath)
         {
             using (var shell = ShellObject.FromParsingName(filePath))
             {
@@ -104,8 +99,9 @@ namespace ClassLibrary
                 }
                 var t = (ulong)prop.ValueAsObject;
                 TimeSpan ts = TimeSpan.FromTicks((long)t);
-                
+      
                 return new TimeSpan(ts.Hours, ts.Minutes, ts.Seconds);
+                
             }
         }
     }
