@@ -6772,7 +6772,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_6888610D3A7445EEA95E28ECB84CD401"
             {
-            "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:C:\\[Manufacturer]\\[ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -6810,7 +6810,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:MójProjekt"
         "ProductCode" = "8:{0623CF99-1B19-4742-BD06-014E0A5F18C3}"
-        "PackageCode" = "8:{2DB380F2-E34C-4101-856C-1284D8A26156}"
+        "PackageCode" = "8:{54A6A137-A4D1-4D57-85F9-22BE14646C39}"
         "UpgradeCode" = "8:{2B2D803E-2464-4F20-823E-8729C6C681FC}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
