@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security;
+using System.Reflection;
 
 namespace ClassLibrary.Tests
 {
@@ -16,8 +17,8 @@ namespace ClassLibrary.Tests
         public void GetVideoDurationTest()
         {
             Lib t = new Lib();
-            Assert.AreEqual(new TimeSpan(0, 10, 49), t.GetVideoDuration(@"C:\Users\Marcin Nowak\Videos\film.mkv"));
-            Assert.AreEqual(new TimeSpan(0), t.GetVideoDuration(@"C:\Users\Marcin Nowak\Videos\test.txt"));
+            Assert.AreEqual(new TimeSpan(0, 0, 3), t.GetVideoDuration(AppDomain.CurrentDomain.BaseDirectory + "\\film.mkv"));
+            Assert.AreEqual(new TimeSpan(0), t.GetVideoDuration(AppDomain.CurrentDomain.BaseDirectory + "\\Test.txt"));
             
         }
 
@@ -26,13 +27,6 @@ namespace ClassLibrary.Tests
         {
             Lib t = new Lib();
             Assert.ThrowsException<Exception>(() => t.StopService());
-        }
-
-        [TestMethod()]
-        public void StartServiceTest()
-        {
-            Lib t = new Lib();
-            Assert.ThrowsException<ArgumentException>(() => t.StartService());
         }
     }
 }

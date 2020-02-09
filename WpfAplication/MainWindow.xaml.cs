@@ -14,11 +14,9 @@ namespace WpfAplication
     public partial class MainWindow : Window
     {
         public ServiceController serviceController;
-        private static string connectionString = ConfigurationManager.ConnectionStrings["localDB"].ConnectionString;
-        private SqlConnection conn = new SqlConnection(connectionString);
-        private SqlCommand command = new SqlCommand();
-        SqlDataAdapter adapter = new SqlDataAdapter();
-        DataTable tab;
+        private SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["localDB"].ConnectionString);
+        private SqlDataAdapter adapter = new SqlDataAdapter();
+        private DataTable tab;
         public MainWindow()
         {
             //Height = (SystemParameters.PrimaryScreenHeight * 0.9);
@@ -52,8 +50,8 @@ namespace WpfAplication
             }
             ShowTab();
         }
-            
-        private void StartButton_Click(object sender, RoutedEventArgs e)
+
+        public void StartButton_Click(object sender, RoutedEventArgs e)
         {
             conn.Close();
             SqlConnection.ClearAllPools();
@@ -70,7 +68,7 @@ namespace WpfAplication
             label.Content = "Usługa: Uruchomiona";
         }
 
-        private void StopButton_Click(object sender, RoutedEventArgs e)
+        public void StopButton_Click(object sender, RoutedEventArgs e)
         {      
             serviceController.Stop();
             serviceController.WaitForStatus(ServiceControllerStatus.Stopped);
@@ -84,37 +82,40 @@ namespace WpfAplication
             label.Content = "Usługa: Zatrzymana";
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        public void AddButton_Click(object sender, RoutedEventArgs e)
         {
             if(NameBox.Text != "" && int.TryParse(SizeBox.Text, out _) == true &&
                 (DateTime.TryParseExact(DateBox.Text, "dd/MM/yyyy HH:mm:ss", 
                 new CultureInfo("en-GB"), DateTimeStyles.None, out _) == true || DateBox.Text == ""))
             {
+                SqlConnection.ClearAllPools();
                 conn.Open();
-                command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia, CzasVideo) " +
-                    "values(@name, @size, @type, @date, @timespan)", conn);
-                command.Parameters.AddWithValue("@name", NameBox.Text);
-                command.Parameters.AddWithValue("@size", SizeBox.Text);
-                command.Parameters.AddWithValue("@type", TypeBox.Text);
-                if(DateBox.Text == "")
+                using (SqlCommand command = new SqlCommand("insert into Tab(Nazwa, Rozmiar, Typ, DataUtworzenia, CzasVideo) " +
+                    "values(@name, @size, @type, @date, @timespan)", conn))
                 {
-                    command.Parameters.AddWithValue("@date", DateTime.Now);
+                    command.Parameters.AddWithValue("@name", NameBox.Text);
+                    command.Parameters.AddWithValue("@size", SizeBox.Text);
+                    command.Parameters.AddWithValue("@type", TypeBox.Text);
+                    if (DateBox.Text == "")
+                    {
+                        command.Parameters.AddWithValue("@date", DateTime.Now);
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@date",
+                            DateTime.ParseExact(DateBox.Text, "dd/MM/yyyy HH:mm:ss", new CultureInfo("en-GB")));
+                    }
+                    if (TimeSpanBox.Text == "")
+                    {
+                        command.Parameters.AddWithValue("@timespan", new TimeSpan(0));
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@timespan", TimeSpan.ParseExact(TimeSpanBox.Text, @"h\:mm\:ss", null));
+                    }
+                    command.ExecuteNonQuery();
+                    command.Dispose();
                 }
-                else
-                {
-                    command.Parameters.AddWithValue("@date", 
-                        DateTime.ParseExact(DateBox.Text, "dd/MM/yyyy HH:mm:ss", new CultureInfo("en-GB")));
-                }
-                if(TimeSpanBox.Text == "")
-                {
-                    command.Parameters.AddWithValue("@timespan", new TimeSpan(0));
-                }
-                else
-                {
-                    command.Parameters.AddWithValue("@timespan", TimeSpan.ParseExact(TimeSpanBox.Text, @"h\:mm\:ss", null));
-                }
-                
-                command.ExecuteNonQuery();
                 ShowTab();
             }
             else
@@ -122,48 +123,51 @@ namespace WpfAplication
                 MessageBox.Show("Błędnie wprowadzone dane!");
             }
         }
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        public void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            
             DataRowView selected = dataGrid.SelectedItem as DataRowView;
             if (selected != null)
             {
+                SqlConnection.ClearAllPools();
                 conn.Open();
                 string cell = selected.Row.ItemArray[0].ToString();
                 int id = int.Parse(cell);
 
-                command = new SqlCommand("delete from Tab where Id=@id", conn);
-                command.Parameters.AddWithValue("@id", id);
-
-                command.ExecuteNonQuery();
+                using (SqlCommand command = new SqlCommand("delete from Tab where Id=@id", conn))
+                {      
+                    command.Parameters.AddWithValue("@id", id);
+                    command.ExecuteNonQuery();
+                    command.Dispose();
+                }
                 ShowTab();
             }
         }
-
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        public void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             ShowTab();
         }
         public void ShowTab()
         {
             tab = new DataTable("Tab");
-            command = new SqlCommand("select * from Tab", conn); 
-            adapter = new SqlDataAdapter(command);
+            using (SqlCommand command = new SqlCommand("select * from Tab", conn))
+            {
+                adapter = new SqlDataAdapter(command);
+            }
+                 
             adapter.Fill(tab);
             dataGrid.ItemsSource = tab.DefaultView;
 
             conn.Close();
-            command.Dispose();
             adapter.Dispose();
             tab.Dispose();
         }
-        private void OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        public void OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             if (e.PropertyType == typeof(DateTime))
                 (e.Column as DataGridTextColumn).Binding.StringFormat = "dd/MM/yyyy HH:mm:ss";
         }
 
-        private void FolderButton_Click(object sender, RoutedEventArgs e)
+        public void FolderButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
             if (dialog.ShowDialog(this).GetValueOrDefault())

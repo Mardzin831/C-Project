@@ -25,7 +25,6 @@ namespace ClassLibrary
             if (!EventLog.SourceExists(sourceName, "."))
             {
                 EventLog.CreateEventSource(sourceName, eventLogName);
-                throw new ArgumentException("Dziennik nie istnieje!");
             }
             eventLog = new EventLog(eventLogName, ".", sourceName);
             traceSwitch = new TraceSwitch("Logowanie", "Level of loging done on directory");
